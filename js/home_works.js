@@ -23,7 +23,7 @@ const parentBlock = document.querySelector('.parent_block');
 let position = 0;
 function animation() {
     const maxPosition = parentBlock.clientWidth - childBlock.clientWidth
- while (position < maxPosition) {
+ if (position < maxPosition) {
     position += 1;
     childBlock.style.left = `${position}px`;
     requestAnimationFrame(animation)
