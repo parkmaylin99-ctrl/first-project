@@ -81,21 +81,23 @@ secReset.addEventListener('click', () => {
 
 //карточки с персонажами
 
+const defaultImg = 'https://i.pinimg.com/736x/48/c0/25/48c025b5141b7dd6dea071d303bab220.jpg'
 
 const request = new XMLHttpRequest();
 const charactersList = document.querySelector('.characters-list')
 request.open('GET', '../data/characters.json');
-request.responseType = 'json'
+request.setRequestHeader('Content-Type', 'application/json')
 request.send();
 request.onload = () => {
-    const characters = request.response
+    const characters = JSON.parse(request.response)
 
     characters.forEach((character) => {
         const card = document.createElement('div')
-        card.setAttribute('class', 'card')
+        card.setAttribute('class', 'character-card')
+        const image = character.photo || defaultImg
         card.innerHTML = `
-            <div class="photo">
-                <img src="${character.person_photo}" alt="${character.name}">
+            <div class="character-photo">
+                <img src="${image}" alt="${character.name}">
             </div>
             <h3>${character.name}</h3>
             <span>${character.age}</span>
@@ -103,3 +105,14 @@ request.onload = () => {
         charactersList.append(card)
     });
 }
+
+
+const info = new XMLHttpRequest
+info.open('GET', '../data/bio.json')
+info.setRequestHeader('Content-Type', 'application/json')
+info.send()
+info.onload = () => {
+    const response = JSON.parse(info.response)
+    console.log(response);
+    
+}      
