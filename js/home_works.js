@@ -76,3 +76,30 @@ secReset.addEventListener('click', () => {
     count = 0;
     secNum.innerHTML = count;
 })
+
+
+
+//карточки с персонажами
+
+
+const request = new XMLHttpRequest();
+const charactersList = document.querySelector('.characters-list')
+request.open('GET', '../data/characters.json');
+request.responseType = 'json'
+request.send();
+request.onload = () => {
+    const characters = request.response
+
+    characters.forEach((character) => {
+        const card = document.createElement('div')
+        card.setAttribute('class', 'card')
+        card.innerHTML = `
+            <div class="photo">
+                <img src="${character.person_photo}" alt="${character.name}">
+            </div>
+            <h3>${character.name}</h3>
+            <span>${character.age}</span>
+        `
+        charactersList.append(card)
+    });
+}
