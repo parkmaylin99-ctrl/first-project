@@ -69,6 +69,9 @@ intervalId = setInterval(() => {
         }, 3000)
 
 
+ //converter
+
+const euroInput = document.querySelector('#euro')
 //converter
 
 const somInput = document.querySelector('#som')
@@ -96,6 +99,7 @@ const usdInput = document.querySelector('#usd')
 //   }
 // }
 
+
 converter = (element) => {
   element.oninput = () => {
     const req = new XMLHttpRequest()
@@ -105,11 +109,23 @@ converter = (element) => {
 
   req.onload = () => {
       if(req.status >= 200 && req.status < 400) {
-      const {usd} = JSON.parse(req.response)
+      const data = JSON.parse(req.response)
+      const {euro, usd} = data
+      if (element.value === '') {
+          somInput.value = '';
+          usdInput.value = '';
+          euroInput.value = '';
+          return;
+        }
         if(element.id === 'som') {
           usdInput.value = (element.value / usd).toFixed(2);
+          euroInput.value = (element.value/ euro).toFixed(2);
         } else if (element.id === 'usd'){
-          somInput.value = (element.value * usd).toFixed(2);
+          somInput.value = (element.value * usd).toFixed(2)
+          euroInput.value = ((element.value * usd) / euro).toFixed(2);
+        } else if (element.id === 'euro'){
+          somInput.value = (element.value * euro).toFixed(2)
+          usdInput.value = ((element.value * euro) / usd).toFixed(2)
         }
       }
     }
@@ -118,5 +134,4 @@ converter = (element) => {
 
 converter(somInput)
 converter(usdInput)
-
-
+converter(euroInput)
