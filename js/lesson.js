@@ -69,13 +69,11 @@ intervalId = setInterval(() => {
         }, 3000)
 
 
- //converter
-
-const euroInput = document.querySelector('#euro')
 //converter
 
 const somInput = document.querySelector('#som')
 const usdInput = document.querySelector('#usd')
+const euroInput = document.querySelector('#euro')
 
 // som.oninput = () => {
 //   const req = new XMLHttpRequest()
