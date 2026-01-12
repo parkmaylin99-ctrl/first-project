@@ -67,3 +67,56 @@ intervalId = setInterval(() => {
         hideBlocks()
         showBlock(index);
         }, 3000)
+
+
+//converter
+
+const somInput = document.querySelector('#som')
+const usdInput = document.querySelector('#usd')
+
+// som.oninput = () => {
+//   const req = new XMLHttpRequest()
+//   req.open('GET', '../data/converter.json')
+//   req.setRequestHeader('Content-Type', 'application/json')
+//   req.send()
+//   req.onload = () => {
+//     const data = JSON.parse(req.response)
+//     usd.value = (som.value / data.usd).toFixed(2)
+//   }
+// }
+
+// usd.oninput = () => {
+//   const req = new XMLHttpRequest()
+//   req.open('GET', '../data/converter.json')
+//   req.setRequestHeader('Content-Type', 'application/json')
+//   req.send()
+//   req.onload = () => {
+//     const data = JSON.parse(req.response)
+//     som.value = (usd.value * data.usd).toFixed(2)
+//   }
+// }
+
+converter = (element) => {
+  element.oninput = () => {
+    const req = new XMLHttpRequest()
+  req.open('GET', '../data/converter.json')
+  req.setRequestHeader('Content-Type', 'application/json')
+  req.send()
+
+  req.onload = () => {
+      if(req.status >= 200 && req.status < 400) {
+      const {usd} = JSON.parse(req.response)
+        if(element.id === 'som') {
+          usdInput.value = (element.value / usd).toFixed(2);
+        } else if (element.id === 'usd'){
+          somInput.value = (element.value * usd).toFixed(2);
+        }
+      }
+    }
+  }
+}
+
+converter(somInput)
+converter(usdInput)
+
+
