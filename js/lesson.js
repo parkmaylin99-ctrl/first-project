@@ -133,3 +133,78 @@ converter = (element) => {
 converter(somInput)
 converter(usdInput)
 converter(euroInput)
+
+
+//card switcher
+const next = document.querySelector('#btn-next')
+const card = document.querySelector('.card')
+const prev = document.querySelector('#btn-prev')
+const btnActions = [next, prev];
+
+const TODOS_API = 'https://jsonplaceholder.typicode.com/todos';
+
+let todoId = 1;
+
+  // fetcherTodos(todoId)
+const fetcherTodos = (todoId) => {
+    fetch(`${TODOS_API}/${todoId}`)
+  .then(response => {
+  if (!response.ok) {
+    card.innerHTML =
+    `<p style="color:red">Error occured</p>`
+  } else {
+    return response.json()
+  }
+})
+  .then(data => {
+    const {id, title, completed} = data;
+    const color = completed ? 'green' : 'red';
+    card.style.borderColor = color;
+    card.innerHTML = `
+    <p>ID: ${id}</p>
+    <p>title -> ${title}</p>
+    <p style="color:${color}">status -> ${completed ? 'finished' : 'pending'}</p>
+    `
+  })
+  }
+  fetcherTodos(todoId);
+btnActions.forEach((buttons) => {
+  buttons.addEventListener('click', (event) => {
+  if (event.currentTarget.id === 'btn-next') {
+   todoId = (todoId >= 200) ? 1 : todoId + 1; 
+  } else if (event.currentTarget.id === 'btn-prev'){
+    todoId = (todoId <= 1) ? 200 : todoId - 1; 
+  }
+  fetcherTodos(todoId);
+})
+})
+
+
+
+//дз6.2
+const POSTS = 'https://jsonplaceholder.typicode.com/posts'
+
+fetch(POSTS)
+.then(response => {
+  if (!response.ok) {
+    throw Error(`Ошибка ${response.status}`)
+  } else {
+    return response.json()
+  }
+}
+)
+.then(allPosts => {
+  //в виде строки
+  // allPosts.forEach(post => {
+  //   const {id, title, body} = post;
+  // console.log(`
+  //    id:${id}
+  //    title:${title}
+  //    body:${body}
+  //    `
+  // )
+  // });
+
+  //в виде массива
+  console.log(allPosts);
+})
